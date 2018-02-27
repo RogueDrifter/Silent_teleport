@@ -1,4 +1,4 @@
-/*By Started by RogueDrifter at 2018/2/25
+/* By RogueDrifter 2018/2/27
 This include fixes the SA-MP bug which occurs when you try to jack another player as he teleports.
 That results into the other player getting teleported silently (without any reads on the server end).
 Also fixes the problem of jacking a paused player.
@@ -199,7 +199,7 @@ public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
 		new FSB_VID = GetPlayerVehicleID(playerid);
 
 		#if defined OnPlayerJackTeleporter
-		OnPlayerJackTeleporter(playerid, FSB_Player[playerid][FsbJtwo], FSB_VID);
+		OnPlayerJackTeleporter(FSB_Player[playerid][FsbJtwo], playerid, FSB_VID);
 		#endif
 
 		FSB_Player[playerid][FsbJacked]  = true;
@@ -226,7 +226,7 @@ public FSB_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 	if(FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJtwo] != INVALID_PLAYER_ID)
 	{
 		#if defined OnPlayerJackTeleporter
-		OnPlayerJackTeleporter(FSB_Vehicle[vehicleid][FsbVOwner], FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJtwo], vehicleid);
+		OnPlayerJackTeleporter(FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJtwo], FSB_Vehicle[vehicleid][FsbVOwner], vehicleid);
 		#endif
 
 		FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJacked]  = true;
