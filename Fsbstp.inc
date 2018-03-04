@@ -9,6 +9,7 @@ This include gives you full control reading that 'silent' action through functio
 
 Callbacks:
 --=-=-=-=-=
+
 OnPlayerJackTeleporter(playerid, teleporterid, vehicleid);
 ----------
 playerid = Jacked player
@@ -18,6 +19,7 @@ vehicleid = vehicle used in the process.
 
 Functions:
 -=-=-=-=-=
+
 IsPlayerJackedTping(playerid);
 IsPlayerJackingTper(playerid);
 IsVehicleJackedTping(vehicleid);
@@ -160,12 +162,15 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 {
 	if(newstate == 2)
 	{
+		FSB_Player[playerid][FsbJtwo] = INVALID_PLAYER_ID;
 		new FSB_Veh = GetPlayerVehicleID(playerid);
+		
 		if(FSB_Vehicle[FSB_Veh][FsbVOwner] != INVALID_PLAYER_ID && FSB_pPaused(FSB_Vehicle[FSB_Veh][FsbVOwner]))
 		{
 			new Float:FSB_X, Float:FSB_Y, Float:FSB_Z;
 			GetPlayerPos(FSB_Vehicle[FSB_Veh][FsbVOwner], FSB_X, FSB_Y, FSB_Z);
 			SetPlayerPos(FSB_Vehicle[FSB_Veh][FsbVOwner], FSB_X, FSB_Y, FSB_Z+2);
+			SendClientMessageToAll(-1, "hist");
 		}
 	}
 
@@ -210,7 +215,7 @@ public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", playerid, 4);
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", FSB_VID, 5);
 
-		ClearAnimations(FSB_Player[playerid][FsbJtwo], 1);
+		ClearAnimations(FSB_Player[playerid][FsbJtwo], 1), SendClientMessageToAll(-1, "his");
 		}
 
 		#if defined FSB_OnPlayerInteriorChange
@@ -237,7 +242,7 @@ public FSB_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", FSB_Vehicle[vehicleid][FsbVOwner], 4);
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", vehicleid, 5);
 
-		ClearAnimations(FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJtwo], 1);
+		ClearAnimations(FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJtwo], 1), SendClientMessageToAll(-1, "hi");
 		}
 
 	return SetVehiclePos(vehicleid, Float:x, Float:y, Float:z);
