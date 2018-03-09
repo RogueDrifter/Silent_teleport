@@ -108,8 +108,8 @@ forward FSB_LinkVehicleToInterior(vehicleid, interiorid);
 //Hooked callbacks:
 public OnGameModeInit()
 {
-	print("     [[--|| FSBJackers V1.0 ||--]]     ");
-    print("     [[--|| Fixed samp bug (jackers) by RogueDrifter V1.0 ||--]]      ");
+	print("     [[--|| FSBJackers V3.0 ||--]]     ");
+    print("     [[--|| Fixed samp bug (jackers) by RogueDrifter V3.0 ||--]]      ");
     print("     [[--|| Successfully Loaded! ||--]]      ");
     FSB_ResetVs = SetTimer("FSB_VehiclesReset", 1000, true);
 
@@ -122,8 +122,8 @@ public OnGameModeInit()
 
 public OnGameModeExit()
 {
-	print("     [[--|| FSBJackers V1.0 ||--]]     ");
-    print("     [[--|| Fixed samp bug (jackers) by RogueDrifter V1.0 ||--]]      ");
+	print("     [[--|| FSBJackers V3.0 ||--]]     ");
+    print("     [[--|| Fixed samp bug (jackers) by RogueDrifter V3.0 ||--]]      ");
     print("     [[--|| Successfully Unloaded! ||--]]      ");
     KillTimer(FSB_ResetVs);
 
