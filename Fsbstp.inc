@@ -9,7 +9,6 @@ This include gives you full control reading that 'silent' action through functio
 
 Callbacks:
 --=-=-=-=-=
-
 OnPlayerJackTeleporter(playerid, teleporterid, vehicleid);
 ----------
 playerid = Jacked player
@@ -19,7 +18,6 @@ vehicleid = vehicle used in the process.
 
 Functions:
 -=-=-=-=-=
-
 IsPlayerJackedTping(playerid);
 IsPlayerJackingTper(playerid);
 IsVehicleJackedTping(vehicleid);
@@ -99,6 +97,10 @@ forward FSB_LinkVehicleToInterior(vehicleid, interiorid);
 	forward FSB_OnGameModeExit();
 #endif
 
+#if defined FSB_OnPlayerSpawn
+	forward FSB_OnPlayerSpawn(playerid);
+#endif
+
 #if defined OnPlayerJackTeleporter
 	forward OnPlayerJackTeleporter(playerid, teleporterid, vehicleid);
 #endif
@@ -170,7 +172,6 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 			new Float:FSB_X, Float:FSB_Y, Float:FSB_Z;
 			GetPlayerPos(FSB_Vehicle[FSB_Veh][FsbVOwner], FSB_X, FSB_Y, FSB_Z);
 			SetPlayerPos(FSB_Vehicle[FSB_Veh][FsbVOwner], FSB_X, FSB_Y, FSB_Z+2);
-			SendClientMessageToAll(-1, "hist");
 		}
 	}
 
@@ -197,6 +198,17 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 		#endif
 }
 
+public OnPlayerSpawn(playerid)
+{
+	FSB_Player[playerid][FsbJtwo] = INVALID_PLAYER_ID;
+
+		#if defined FSB_OnPlayerSpawn
+	return FSB_OnPlayerSpawn(playerid);
+		#else
+	return 1;
+		#endif
+}
+
 public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
 {
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && !FSB_Player[playerid][FsbFakeTp] && FSB_Player[playerid][FsbJtwo] != INVALID_PLAYER_ID)
@@ -215,7 +227,7 @@ public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", playerid, 4);
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", FSB_VID, 5);
 
-		ClearAnimations(FSB_Player[playerid][FsbJtwo], 1), SendClientMessageToAll(-1, "his");
+		ClearAnimations(FSB_Player[playerid][FsbJtwo], 1);
 		}
 
 		#if defined FSB_OnPlayerInteriorChange
@@ -242,7 +254,7 @@ public FSB_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", FSB_Vehicle[vehicleid][FsbVOwner], 4);
 		SetTimerEx("FSB_ProtectionHandle", FSB_MAX_PRORES, false, "ii", vehicleid, 5);
 
-		ClearAnimations(FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJtwo], 1), SendClientMessageToAll(-1, "hi");
+		ClearAnimations(FSB_Player[FSB_Vehicle[vehicleid][FsbVOwner]][FsbJtwo], 1);
 		}
 
 	return SetVehiclePos(vehicleid, Float:x, Float:y, Float:z);
@@ -296,6 +308,7 @@ public FSB_ProtectionHandle(handleid, caseid)
 			FSB_Vehicle[handleid][FsbPJack] 	= false;
 		}
 	}
+
 	return 1;
 }
 
@@ -310,6 +323,7 @@ public FSB_VehiclesReset()
         if(GetPlayerState(i)== PLAYER_STATE_DRIVER) 
         FSB_Vehicle[GetPlayerVehicleID(i)][FsbVOwner]=  i ; 
     } 
+    
     return 1;
 }
 
@@ -401,6 +415,7 @@ static FSB_pPaused(playerid) 			return (GetTickCount() > (FSB_Player[playerid][F
 #endif
 
 #define OnGameModeInit FSB_OnGameModeInit
+
 
 #else //Link filterscripts to the gamemode remotely:
 
