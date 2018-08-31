@@ -1,0 +1,9 @@
+{
+	"user": "RogueDrifter",
+	"repo": "Silent_teleport",
+	"entry": "test.pwn",
+	"output": "test.amx",
+	"dependencies": [
+		"sampctl/samp-stdlib"
+	]
+}
